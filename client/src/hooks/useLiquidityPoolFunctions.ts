@@ -15,7 +15,7 @@ export function useLiquidityPoolFunctions() {
     functionName: 'totalLiquidity',
   });
   
-  const getUserLiquidity = (address: `0x${string}`) => {
+  const useUserLiquidity = (address: `0x${string}`) => {
     return useReadContract({
       address: LIQUIDITY_POOL_CONTRACT_ADDRESS,
       abi: LiquidityPoolABI,
@@ -24,7 +24,7 @@ export function useLiquidityPoolFunctions() {
     });
   };
   
-  const getSwapRate = (tokenAmount: bigint) => {
+  const useSwapRate = (tokenAmount: bigint) => {
     return useReadContract({
       address: LIQUIDITY_POOL_CONTRACT_ADDRESS,
       abi: LiquidityPoolABI,
@@ -33,7 +33,7 @@ export function useLiquidityPoolFunctions() {
     });
   };
   
-  const getTokenSwapRate = (ethAmount: bigint) => {
+  const useTokenSwapRate = (ethAmount: bigint) => {
     return useReadContract({
       address: LIQUIDITY_POOL_CONTRACT_ADDRESS,
       abi: LiquidityPoolABI,
@@ -83,9 +83,12 @@ export function useLiquidityPoolFunctions() {
   return {
     // Read functions
     totalLiquidity,
-    getUserLiquidity,
-    getSwapRate,
-    getTokenSwapRate,
+    getUserLiquidity: useUserLiquidity,
+    getSwapRate: useSwapRate,
+    getTokenSwapRate: useTokenSwapRate,
+    useUserLiquidity,
+    useSwapRate,
+    useTokenSwapRate,
     
     // Write functions
     addLiquidity,

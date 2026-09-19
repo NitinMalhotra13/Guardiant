@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 import { ethers } from 'ethers'
-import { useAccount, useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
 import ERC20Abi from '../../abis/ERC20.json'
 import LiquidityPoolAbi from '../../abis/LiquidityPool.json'
 
 export default function LiquidityPage() {
   const { address } = useAccount()
-  const provider = useProvider()
-  const signer = provider.getSigner()
 
   const [tokenAmt, setTokenAmt] = useState('1000')
   const [ethAmt, setEthAmt] = useState('0.1')
@@ -22,8 +20,13 @@ export default function LiquidityPage() {
     if (!address) {
       return setStatus('🔌 Connect your wallet first.')
     }
+    if (typeof window === 'undefined' || !(window as any).ethereum) {
+      return setStatus('🔌 Web3 wallet provider not found.')
+    }
     try {
       setStatus('⏳ Approving token…')
+      const browserProvider = new ethers.BrowserProvider((window as any).ethereum)
+      const signer = await browserProvider.getSigner()
       const tokenContract = new ethers.Contract(tokenAddress, ERC20Abi, signer)
       const approveTx = await tokenContract.approve(
         poolAddress,
@@ -42,7 +45,7 @@ export default function LiquidityPage() {
       setStatus('✅ Liquidity added successfully!')
     } catch (err: any) {
       console.error(err)
-      setStatus('❌ Error: ' + (err.message ?? err.toString()))
+      setStatus('❌ Error: ' + (err?.message ?? err?.toString()))
     }
   }
 
