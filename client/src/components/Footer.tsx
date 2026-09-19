@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { FaShieldAlt, FaGithub, FaTwitter } from 'react-icons/fa';
 
