@@ -10,7 +10,10 @@ Adheres to the Single Responsibility Principle (SRP) by focusing solely on data 
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-from utils.logger import get_logger
+try:
+    from utils.logger import get_logger
+except ImportError:
+    from ..utils.logger import get_logger
 
 # Initialize logger
 logger = get_logger(__name__)

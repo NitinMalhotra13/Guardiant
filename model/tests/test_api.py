@@ -2,11 +2,14 @@ import pytest
 import os
 from src.api.etherscan_api import EtherscanAPI
 
+pytestmark = pytest.mark.skipif(
+    not os.getenv("ETHERSCAN_API_KEY"),
+    reason="ETHERSCAN_API_KEY environment variable not set"
+)
 
 @pytest.fixture
 def api():
     api_key = os.getenv("ETHERSCAN_API_KEY")
-    assert api_key, "API key is missing. Set 'ETHERSCAN_API_KEY' environment variable."
     return EtherscanAPI(api_key=api_key)
 
 

@@ -7,10 +7,15 @@ ARIMA is effective for modeling and forecasting transaction trends over time.
 Adheres to the Single Responsibility Principle (SRP) by focusing solely on time series analysis.
 """
 
-import pandas as pd
-import numpy as np
-from statsmodels.tsa.arima.model import ARIMA
-from utils.logger import get_logger
+try:
+    from statsmodels.tsa.arima.model import ARIMA
+except ImportError:
+    ARIMA = None
+
+try:
+    from utils.logger import get_logger
+except ImportError:
+    from ..utils.logger import get_logger
 
 # Initialize logger
 logger = get_logger(__name__)

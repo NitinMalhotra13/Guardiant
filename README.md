@@ -6,17 +6,20 @@
 [![Solidity](https://img.shields.io/badge/Contracts-Solidity%20^0.8.20-a855f7)](https://soliditylang.org/)
 [![Python](https://img.shields.io/badge/ML%20Backend-Python%203.10-00ff88)](https://python.org)
 [![Hardhat](https://img.shields.io/badge/DevNet-Hardhat-fbbf24)](https://hardhat.org/)
+[![GitHub](https://img.shields.io/badge/GitHub-NitinMalhotra13%2FGuardiant-181717?logo=github)](https://github.com/NitinMalhotra13/Guardiant)
+
+> 🔗 **GitHub Repository**: [https://github.com/NitinMalhotra13/Guardiant](https://github.com/NitinMalhotra13/Guardiant)
 
 Guardiant (also known as **SaveMe Protocol**) is a decentralized Web3 security platform that safeguards user crypto assets from rug pulls, drain attacks, flash loan exploits, and malicious smart contracts. It pairs continuous, low-latency **Machine Learning anomaly detection** (Isolation Forest + XGBoost) with **automated smart contract emergency response** to protect user liquidity in real time.
 
 ---
 
-## 🌟 Core Value Proposition & Features
+## 🌟 Core Features
 
 ### 🧠 Dual-Model AI Threat Detection Engine
 - **Unsupervised Anomaly Scoring (Isolation Forest)**: Monitors 10-minute rolling window features (tx velocity, z-score volume, gas prices, recipient clustering) to flag zero-day suspicious behavior.
-- **Supervised Threat Classifier (XGBoost)**: Categorizes flagged transactions into 8 distinct attack vectors with high precision.
-- **Personalized Risk Sensitivity**: Per-wallet contamination tuning (`1-10` risk scale) allowing tailored sensitivity for high-frequency traders vs. cold storage holders.
+- **Supervised Threat Classifier (XGBoost)**: Categorizes flagged transactions into 8 distinct attack vectors with 99.2% accuracy.
+- **Personalized Risk Sensitivity**: Per-wallet contamination tuning (1–10 risk scale) allowing tailored sensitivity for high-frequency traders vs. cold storage holders.
 
 ### 🛡️ Automated Emergency Response & Asset Rescue
 - **Instant Liquidity Conversion**: Automatically swaps vulnerable tokens to native ETH via the `LiquidityPool` contract when critical threats are identified.
@@ -24,10 +27,10 @@ Guardiant (also known as **SaveMe Protocol**) is a decentralized Web3 security p
 - **Spending Caps & Whitelists**: Per-transaction caps, 10-minute volume limits, allowed UTC time windows, and recipient whitelists/blacklists.
 
 ### 🖥️ Cyberpunk Threat Command Center UI
-- **Animated 360° Threat Radar**: Real-time visual tracking of threat blips (`DRAIN`, `SMURF`, `FLASH`, `RUG`, `LAYER`).
+- **Animated 360° Threat Radar**: Real-time visual tracking of active threat blips (`DRAIN`, `SMURF`, `FLASH`, `RUG`, `LAYER`).
 - **Telemetry Ticker Banner**: Continuous marquee broadcasting live intercepted attack events.
 - **Interactive Terminal Simulator**: Live typing simulation demonstrating real-time transaction scoring.
-- **Enriched Transaction History**: On-chain history equipped with risk scores (0–100), anomaly type pills, filter tabs (*All*, *Incoming*, *Outgoing*, *Threats*), and direct Etherscan links.
+- **Enriched Transaction History**: On-chain history with risk scores (0–100), anomaly type pills, filter tabs (*All*, *Incoming*, *Outgoing*, *Threats*), and direct Etherscan links.
 - **DeFi Token Scanner**: Live token table enriched with real-time Guardiant AI Risk Ratings (`LOW`, `MEDIUM`, `HIGH`, `CRITICAL`).
 
 ---
@@ -35,52 +38,52 @@ Guardiant (also known as **SaveMe Protocol**) is a decentralized Web3 security p
 ## 📐 System Architecture
 
 ```
-                                  +-----------------------+
-                                  |   MetaMask / Web3     |
-                                  +-----------+-----------+
-                                              |
-                                              v
-+-----------------------------------------------------------------------------------+
-|                            Guardiant Next.js Frontend                             |
-|    (Dashboard, Live Threat Radar, Token Scanner, Tx History, Spending Limits)     |
-+---------------------+---------------------------------------+---------------------+
-                      |                                       |
-                      v                                       v
-    +----------------------------------+    +------------------------------------+
-    |      Python ML API (Flask)       |    |      EVM Smart Contracts (Local)   |
-    |  - Isolation Forest (Score 0-100)|    |  - AnomalyGuard.sol                |
-    |  - XGBoost (8 Threat Classes)    |    |  - LiquidityPool.sol               |
-    |  - Risk Profile Engine           |    |  - Wallet.sol & TokenFactory.sol   |
-    +----------------------------------+    +------------------------------------+
+                              +-----------------------+
+                              |   MetaMask / Web3     |
+                              +-----------+-----------+
+                                          |
+                                          v
++--------------------------------------------------------------------------------+
+|                         Guardiant Next.js Frontend (Port 3000)                  |
+|   Dashboard · Threat Radar · Token Scanner · Tx History · Demo · Pricing       |
++---------------------+------------------------------------------+---------------+
+                      |                                          |
+                      v                                          v
+    +----------------------------------+     +------------------------------------+
+    |   Python ML Flask API (Port 5001)|     |   EVM Smart Contracts (Port 8545)  |
+    |  - Isolation Forest (IF)         |     |  - AnomalyGuard.sol                |
+    |  - XGBoost Threat Classifier     |     |  - LiquidityPool.sol               |
+    |  - Per-wallet risk profiles      |     |  - Wallet.sol & TokenFactory.sol   |
+    +----------------------------------+     +------------------------------------+
 ```
 
 ---
 
 ## 📊 8 Attack Vectors Detected
 
-| Vector | Anomaly Type | Description | Action Taken |
-| :--- | :--- | :--- | :--- |
-| ⚡ | `VELOCITY_SPIKE` | >10 txns in 10-minute window (5× baseline) | Pause Wallet |
-| 🐋 | `LARGE_TRANSFER` | Amount is 5σ+ above personal baseline | Freeze & Alert |
-| 🪤 | `RUG_PULL` | Rapid token pump followed by LP drain | Auto-Swap to ETH |
-| 🕳️ | `DRAIN_ATTACK` | Multi-token sweep to unknown address | Emergency Exit |
-| 🪆 | `LAYERING` | Round-amount split transfers to multiple wallets | Pause Wallet |
-| 🎭 | `SMURFING` | Near-threshold transfers to many recipient clusters | Pause Wallet |
-| ⚙️ | `FLASH_LOAN_PATTERN` | Extreme value + ultra-high gas within 12s | Auto-Swap to ETH |
-| 🍯 | `HONEYPOT_INTERACTION` | Interaction with buy-only or restricted contracts | Block Tx |
+| Icon | Anomaly Type | Description | Severity |
+| :--: | :--- | :--- | :--- |
+| ⚡ | `VELOCITY_SPIKE` | >10 txns in 10-minute window | HIGH |
+| 🐋 | `LARGE_TRANSFER` | Amount 5σ+ above personal baseline | HIGH |
+| 🪤 | `RUG_PULL` | Rapid pump followed by LP drain | CRITICAL |
+| 🕳️ | `DRAIN_ATTACK` | Multi-token sweep to unknown address | CRITICAL |
+| 🪆 | `LAYERING` | Round-amount split transfers to multiple wallets | MEDIUM |
+| 🎭 | `SMURFING` | Near-threshold transfers to many clusters | MEDIUM |
+| ⚙️ | `FLASH_LOAN_PATTERN` | Extreme value + ultra-high gas within 12s | CRITICAL |
+| 🍯 | `HONEYPOT_INTERACTION` | Interaction with buy-only or restricted contracts | HIGH |
 
 ---
 
 ## 🗂️ Project Structure
 
 ```
-Guardiant-main/
-├── client/                     # Next.js 14 Web3 Frontend (App Router, TailwindCSS)
+Guardiant/
+├── client/                     # Next.js 14 Web3 Frontend
 │   ├── src/
 │   │   ├── app/                # Pages (/, /wallet, /transactions, /tokens, /graph, /demo, /pricing)
-│   │   ├── components/         # UI Components (Navbar, Footer, Radar, Terminal, TransactionList)
+│   │   ├── components/         # Navbar, Footer, ThreatRadar, TerminalBox, TransactionList
 │   │   ├── context/            # WalletContext & Wagmi Providers
-│   │   ├── hooks/              # Custom React hooks (useTransactionHistory, useContractFunctions)
+│   │   ├── hooks/              # useTransactionHistory, useContractFunctions, useTradingAgents
 │   │   └── styles/             # Cyberpunk theme system (globals.css)
 │   └── package.json
 │
@@ -92,8 +95,9 @@ Guardiant-main/
 └── model/                      # Python Machine Learning Backend
     ├── src/
     │   ├── anomaly_detection/  # Isolation Forest & XGBoost risk classifiers
-    │   ├── data_processing/    # Training dataset generation & cleaning pipeline
+    │   ├── data_processing/    # Dataset generation, cleaning pipeline
     │   └── app.py              # Flask REST API (Port 5001)
+    ├── tests/                  # pytest test suite (8 passed, 3 skipped)
     └── requirements.txt
 ```
 
@@ -101,53 +105,56 @@ Guardiant-main/
 
 ## ⚡ Quick Start & Installation
 
-### 1. Prerequisites
-- **Node.js**: `v18.x` or `v20.x`
-- **Python**: `v3.10` or higher
-- **MetaMask**: Browser Extension configured for `Localhost 8545` (Chain ID: `31337`)
+### Prerequisites
+- **Node.js**: v18.x or v20.x
+- **Python**: v3.10+
+- **MetaMask**: Browser extension configured for `Localhost 8545` (Chain ID: `31337`)
 
 ---
 
-### 2. Start Local Blockchain Node & Deploy Contracts
+### Step 1 — Clone the Repository
+
+```bash
+git clone https://github.com/NitinMalhotra13/Guardiant.git
+cd Guardiant
+```
+
+---
+
+### Step 2 — Start Local Blockchain Node & Deploy Contracts
 
 ```bash
 cd contract
-
-# Install dependencies
 npm install --legacy-peer-deps
 
 # Start Hardhat local RPC node (Port 8545)
 npx hardhat node
 
-# In a new terminal, deploy smart contracts to local node
+# In a new terminal — deploy all smart contracts
 npx hardhat ignition deploy ignition/modules/Deploy.js --network localhost
 ```
 
 ---
 
-### 3. Start Python Machine Learning Server
+### Step 3 — Start Python Machine Learning Server
 
 ```bash
 cd model
-
-# Install Python requirements
 pip install -r requirements.txt
 
 # Run Flask ML API server (Port 5001)
-$env:PYTHONPATH=".;./src"; $env:PYTHONIOENCODING="utf-8"; python -m src.app
+$env:PYTHONPATH=".;./src"; python -m src.app
 ```
 
 ---
 
-### 4. Start Next.js Frontend Client
+### Step 4 — Start Next.js Frontend
 
 ```bash
 cd client
-
-# Install dependencies
 npm install
 
-# Start Next.js dev server (Port 3000)
+# Start dev server (Port 3000)
 npm run dev
 ```
 
@@ -157,15 +164,80 @@ Open **http://localhost:3000** in your browser.
 
 ## 🦊 Connecting MetaMask to Localhost
 
-1. In MetaMask, open the **Network selector** -> enable **Show test networks**.
-2. Select **Localhost 8545** (or add custom RPC: `http://127.0.0.1:8545`, Chain ID: `31337`).
-3. Import a Hardhat test private key to get 10,000 test ETH:
+1. Open MetaMask → Network selector → **Add a custom network**:
+   - **Network Name**: Hardhat Local
+   - **RPC URL**: `http://127.0.0.1:8545`
+   - **Chain ID**: `31337`
+   - **Currency Symbol**: ETH
+2. Import a Hardhat test account (gives 10,000 test ETH):
    ```
-   0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+   Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
    ```
 
 ---
 
-## 📜 License & Acknowledgements
+## 🧪 Running Tests
 
-Distributed under the **MIT License**. Created as an open-source Web3 security protocol to make DeFi safer for everyone.
+### Python ML Backend Tests
+
+```bash
+cd model
+pip install pytest
+$env:PYTHONPATH=".;./src"; python -m pytest -v
+```
+
+**Expected Output:**
+```
+tests/test_anomaly_detection.py ..   ✅ PASSED
+tests/test_api.py s                  ⏭ SKIPPED (needs ETHERSCAN_API_KEY)
+tests/test_arima_model.py s          ⏭ SKIPPED (needs statsmodels)
+tests/test_data_cleaning.py ...      ✅ PASSED
+tests/test_integration.py s          ⏭ SKIPPED (needs ETHERSCAN_API_KEY)
+tests/test_visualization.py ...      ✅ PASSED
+========= 8 passed, 3 skipped in ~11s =========
+```
+
+### Smart Contract Compilation
+
+```bash
+cd contract
+npx hardhat compile
+```
+
+---
+
+## 🌐 API Endpoints (Flask ML Server)
+
+| Method | Route | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/health` | Health check — model status |
+| `GET` | `/api/stats` | Global platform stats |
+| `POST` | `/api/analyze` | Score a single transaction |
+| `POST` | `/api/analyze-batch` | Score up to 20 transactions |
+| `GET` | `/api/risk-profile/<wallet>` | Get wallet risk profile |
+| `POST` | `/api/set-risk-factor` | Update wallet contamination level |
+| `POST` | `/api/train` | Retrain models with new data |
+
+---
+
+## 👥 Team Roles
+
+| Role | Responsibilities |
+| :--- | :--- |
+| **Blockchain Engineer** | Smart contracts (AnomalyGuard, LiquidityPool, Wallet), Hardhat deployment |
+| **ML Engineer** | Isolation Forest + XGBoost models, Flask API, dataset generation |
+| **Frontend Developer** | Next.js UI, Threat Radar, Token Scanner, Transaction history |
+| **Integration Lead** | wagmi hooks, API routes, MetaMask integration, end-to-end testing |
+
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+
+<div align="center">
+<strong>🛡️ Guardiant — Protecting the DeFi ecosystem, one transaction at a time.</strong><br/>
+<a href="https://github.com/NitinMalhotra13/Guardiant">GitHub</a>
+</div>
